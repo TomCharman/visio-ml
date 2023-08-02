@@ -6,6 +6,7 @@ struct ImageViewer: View {
   let scaleFactor: CGFloat
   let showAnnotationLabels: Bool
   let draftCoords: CGRect?
+  let dragFromCentre: Bool
 
   @State var creatingAnnotation = false
   @State var movingAnnotation = false
@@ -28,6 +29,29 @@ struct ImageViewer: View {
     image.annotations
   }
   
+  func handleDragChangeFromCentre(gestureValue: DragGesture.Value) {
+    if !self.creatingAnnotation {
+      self.creatingAnnotation.toggle()
+      self.newAnnotationCenter = gestureValue.startLocation
+    }
+    self.newAnnotationCorner = gestureValue.location
+  }
+  
+  func handleDragChangeFromCorner(gestureValue: DragGesture.Value) {
+    if !self.creatingAnnotation {
+      self.creatingAnnotation.toggle()
+      self.newAnnotationCorner = gestureValue.startLocation
+    }
+    
+    let width = gestureValue.location.x - gestureValue.startLocation.x
+    let height = gestureValue.location.y - gestureValue.startLocation.y
+    
+    let midpointX = gestureValue.startLocation.x + (width / 2.0)
+    let midpointY = gestureValue.startLocation.y + (height / 2.0)
+    
+    self.newAnnotationCenter = CGPoint(x: midpointX, y: midpointY)
+  }
+  
   var body: some View {
     GeometryReader { p in
       Image(nsImage: NSImage(byReferencing: self.image.url))
@@ -43,11 +67,11 @@ struct ImageViewer: View {
       .gesture(
         DragGesture()
         .onChanged {
-          if !self.creatingAnnotation {
-            self.creatingAnnotation.toggle()
-            self.newAnnotationCenter = $0.startLocation
+          if (dragFromCentre) {
+            handleDragChangeFromCentre(gestureValue: $0)
+          } else {
+            handleDragChangeFromCorner(gestureValue: $0)
           }
-          self.newAnnotationCorner = $0.location
         }
         .onEnded { _ in
           self.image.addAnnotation(withCoordinates: self.newAnnotation.scaledBy(1 / self.scaleFactor))
@@ -129,6 +153,6 @@ struct ImageViewer: View {
 
 struct ImageViewer_Previews: PreviewProvider {
   static var previews: some View {
-    ImageViewer(image: .constant(AnnotatedImage(url: URL(string: "")!)), scaleFactor: 1.5, showAnnotationLabels: false, draftCoords: nil)
+    ImageViewer(image: .constant(AnnotatedImage(url: URL(string: "")!)), scaleFactor: 1.5, showAnnotationLabels: false, draftCoords: nil, dragFromCentre: true)
   }
 }

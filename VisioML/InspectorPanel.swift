@@ -45,7 +45,7 @@ struct InspectorPanel: View {
               Text("No image selected")
               .foregroundColor(.secondary)
             } else {
-              AnnotationInspector(annotations: $appData.annotatedImages[appData.activeImageIndex!].annotations, showAnnotationLabels: $appData.navigation.showLabels, draftCoords: $appData.draftCoords)
+              AnnotationInspector(annotations: $appData.annotatedImages[appData.activeImageIndex!].annotations, showAnnotationLabels: $appData.navigation.showLabels, dragFromCentre: $appData.dragFromCentre, draftCoords: $appData.draftCoords)
             }
           }
           .frame(maxWidth: .infinity, maxHeight: .infinity)

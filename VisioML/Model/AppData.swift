@@ -35,6 +35,7 @@ class AppData: ObservableObject {
   @Published var outFolder: URL?
   @Published var viewportSize: CGSize = CGSize.zero
   @Published var draftCoords = CGRect?.none
+  @Published var dragFromCentre = true
   var cancelSyntheticsProcess = false
 
   var currentScaleFactor: CGFloat? {

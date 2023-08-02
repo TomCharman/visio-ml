@@ -12,6 +12,7 @@ struct AnnotationInspector: View {
 
   @Binding var annotations: [Annotation]
   @Binding var showAnnotationLabels: Bool
+  @Binding var dragFromCentre: Bool
   @Binding var draftCoords: CGRect?
 
 
@@ -77,8 +78,12 @@ struct AnnotationInspector: View {
 
   var body: some View {
     VStack {
-      Toggle("Show annotation labels", isOn: $showAnnotationLabels)
+      VStack {
+        Toggle("Show annotation labels", isOn: $showAnnotationLabels)
+        Toggle("Drag from centre", isOn: $dragFromCentre)
+      }
       .padding()
+      
 
       if annotationsPresent && annotationSelected {
         annotationBody
@@ -219,6 +224,6 @@ struct AnnotationInspector: View {
 
 struct AnnotationInspector_Previews: PreviewProvider {
   static var previews: some View {
-    AnnotationInspector(annotations: .constant([Annotation]()), showAnnotationLabels: .constant(true), draftCoords: .constant(nil))
+    AnnotationInspector(annotations: .constant([Annotation]()), showAnnotationLabels: .constant(true), dragFromCentre: .constant(true), draftCoords: .constant(nil))
   }
 }

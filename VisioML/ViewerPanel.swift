@@ -14,7 +14,7 @@ struct ViewerPanel: View {
           }
         }
       } else if appData.activeImage != nil && appData.activeImage!.fileExists {
-        ImageViewer(image: $appData.annotatedImages[appData.activeImageIndex!], scaleFactor: appData.currentScaleFactor!, showAnnotationLabels: appData.navigation.showLabels, draftCoords: appData.draftCoords)
+        ImageViewer(image: $appData.annotatedImages[appData.activeImageIndex!], scaleFactor: appData.currentScaleFactor!, showAnnotationLabels: appData.navigation.showLabels, draftCoords: appData.draftCoords, dragFromCentre: appData.dragFromCentre)
       } else if appData.activeImage != nil && !appData.activeImage!.fileExists {
         Text("Image file currently not present in file system.")
         .foregroundColor(.secondary)
