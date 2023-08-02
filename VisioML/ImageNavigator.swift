@@ -54,7 +54,7 @@ struct NavigatorTab: View {
     .padding(.horizontal)
     .padding(.vertical, 8)
     .background(
-      Color(NSColor.controlHighlightColor)
+      Color(NSColor.separatorColor)
     )
     .foregroundColor(
       selection == key

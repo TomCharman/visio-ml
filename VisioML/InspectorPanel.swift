@@ -11,7 +11,7 @@ struct InspectorTab: View {
     .padding(.horizontal)
     .padding(.vertical, 8)
     .background(
-      Color(NSColor.controlHighlightColor)
+      Color(NSColor.separatorColor)
     )
     .foregroundColor(
       selection == inspector
