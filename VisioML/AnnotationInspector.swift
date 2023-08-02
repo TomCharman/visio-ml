@@ -15,6 +15,7 @@ struct AnnotationInspector: View {
   @Binding var dragFromCentre: Bool
   @Binding var draftCoords: CGRect?
 
+  @FocusState private var labelEditHasFocus: Bool
 
   var xBind: Binding<String> {
     .init(
@@ -107,6 +108,7 @@ struct AnnotationInspector: View {
     VStack {
       if editting {
         TextField("Label", text: $newName)
+          .focused($labelEditHasFocus)
       } else {
         Text(annotation.label)
       }
@@ -167,12 +169,15 @@ struct AnnotationInspector: View {
       HStack {
         if editting {
           Button("Save", action: self.save)
+            .keyboardShortcut(KeyEquivalent.return, modifiers: [])
           Button("Cancel", action: self.cancelEditting)
         } else {
           Button("Edit") {
             self.newName = self.annotation.label
             self.editting = true
+            self.labelEditHasFocus = true
           }
+          .keyboardShortcut("e")
         }
       }
       Button("Remove") {
