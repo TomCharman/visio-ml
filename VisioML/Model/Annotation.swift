@@ -19,6 +19,7 @@ struct Annotation {
     }
   }
 
+  var id: UUID = UUID()
   var label: String
   var coordinates: CGRect // Top-Left Origin. Centered.
 
@@ -47,9 +48,7 @@ struct Annotation {
 }
 
 extension Annotation: Identifiable {
-  var id: some Hashable {
-    label
-  }
+
 }
 
 extension Annotation: Codable {
