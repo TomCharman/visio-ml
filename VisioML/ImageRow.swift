@@ -19,9 +19,16 @@ struct ImageRow: View {
   var body: some View {
     HStack {
       Toggle("", isOn: isSelectedBinding)
-      Image(nsImage: NSImage(byReferencing: annotatedImage.url))
-        .resizable()
-        .aspectRatio(contentMode: .fit)
+      VStack(alignment: .leading) {
+        Text("\(annotatedImage.shortName)")
+        Text("\(annotatedImage.annotations.count) annotations")
+          .font(.caption)
+        if (appData.showImagesInSidebar) {
+          Image(nsImage: NSImage(byReferencing: annotatedImage.url))
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+        }
+      }
       .frame(maxWidth: .infinity, alignment: .leading)
       .padding(.vertical, 8)
     }

@@ -28,6 +28,8 @@ struct Toolbar: View {
 //        .environment(\.isEnabled, appData.workingFolder != nil)
       }
       Spacer()
+      Toggle("Show images in sidebar", isOn: $appData.showImagesInSidebar)
+      Spacer()
       VStack(alignment: .leading) {
           Button("Synthetics") {
             withAnimation {

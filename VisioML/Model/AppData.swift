@@ -36,6 +36,7 @@ class AppData: ObservableObject {
   @Published var viewportSize: CGSize = CGSize.zero
   @Published var draftCoords = CGRect?.none
   @Published var dragFromCentre = true
+  @Published var showImagesInSidebar = true
   var cancelSyntheticsProcess = false
 
   var currentScaleFactor: CGFloat? {
