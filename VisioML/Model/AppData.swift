@@ -135,18 +135,18 @@ class AppData: ObservableObject {
       return
     }
     let files = try! FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles])
-    let pngFiles = files.filter { $0.path.lowercased().hasSuffix(".png") }
+    let imageFiles = files.filter { $0.isImage }
     
     // Remove deleted images
     for image in annotatedImages {
       // Chceck if image is in dir contents
-      if pngFiles.first(where: { $0 == image.url }) == nil {
+      if imageFiles.first(where: { $0 == image.url }) == nil {
         // Remove image from internal array
         annotatedImages.removeAll { $0.url == image.url }
       }
     }
     // Add new images only
-    for file in pngFiles {
+    for file in imageFiles {
       guard annotatedImages.first(where: { $0.url == file }) == nil else {
         // Image was already there, leave as is
         continue

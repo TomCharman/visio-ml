@@ -59,6 +59,7 @@
 		62C7274224BF446300E332E5 /* Operation+validCombinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C7274124BF446300E332E5 /* Operation+validCombinations.swift */; };
 		62F416B424B879D900163E82 /* WorkspaceSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62B329E124B77B0E007326CB /* WorkspaceSettings.swift */; };
 		62F416B624B8BB8E00163E82 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F416B524B8BB8E00163E82 /* Operation.swift */; };
+		E20D49AF2A7E28D700887A60 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20D49AE2A7E28D700887A60 /* URL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +119,7 @@
 		62C7274124BF446300E332E5 /* Operation+validCombinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Operation+validCombinations.swift"; sourceTree = "<group>"; };
 		62F416B524B8BB8E00163E82 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		62F96C4724D1CDC700F96A0E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E20D49AE2A7E28D700887A60 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +222,7 @@
 				627461AC24AE1D7C003485E7 /* Image.swift */,
 				627DEAC024C614EC00E70B73 /* String.swift */,
 				622284D424B61D46003F98AF /* UUID.swift */,
+				E20D49AE2A7E28D700887A60 /* URL.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				627461B524AE1DB2003485E7 /* CGSize.swift in Sources */,
 				6296E16B24BF4262006696D3 /* Cutout.swift in Sources */,
 				622284D124B61C5F003F98AF /* SyntheticsTask.swift in Sources */,
+				E20D49AF2A7E28D700887A60 /* URL.swift in Sources */,
 				620D3DEE24ACE5F500A26F9A /* NavigationState.swift in Sources */,
 				622284D324B61CE3003F98AF /* SyntheticsProcessor.swift in Sources */,
 				620D3DE624ACD51400A26F9A /* AnnotatedImage.swift in Sources */,
