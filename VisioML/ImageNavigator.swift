@@ -16,7 +16,7 @@ struct ImageNavigator: View {
       }
       if appData.navigation.navigator == .inputFolder {
         ScrollView {
-          VStack(spacing: 0) {
+          LazyVStack(spacing: 0) {
             ForEach(appData.annotatedImages) {
               ImageRow(annotatedImage: $0)
             }
@@ -26,7 +26,7 @@ struct ImageNavigator: View {
         .frame(minWidth: 150, maxWidth: 250, maxHeight: .infinity)
       } else { // .outputFolder
         ScrollView {
-          VStack(spacing: 0) {
+          LazyVStack(spacing: 0) {
             ForEach(appData.outputImages) {
               ImageRow(annotatedImage: $0)
             }
