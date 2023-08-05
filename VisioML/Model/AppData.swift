@@ -40,10 +40,10 @@ class AppData: ObservableObject {
   var cancelSyntheticsProcess = false
 
   var currentScaleFactor: CGFloat? {
-    guard let image = activeImage, let ciImage = CIImage(contentsOf: image.url) else {
+    guard let image = activeImage, let size = image.size else {
       return nil
     }
-    return viewportSize.width / ciImage.extent.size.width
+    return viewportSize.width / size.width
   }
   
   var pendingImages: Int {

@@ -15,7 +15,7 @@ struct ImageInspector: View {
   }
   
   var imageSize: CGSize {
-    CIImage(contentsOf: image.url)!.extent.size
+    return image.size!
   }
 
   var currentScaleFactor: CGFloat {

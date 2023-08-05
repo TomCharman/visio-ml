@@ -1,4 +1,5 @@
 import Foundation
+import CoreImage
 
 /*
 // JSON file
@@ -58,6 +59,21 @@ struct AnnotatedImage {
   
   var fileExists: Bool {
     FileManager.default.fileExists(atPath: url.path)
+  }
+  
+  var size: CGSize? {
+    if let imageSource = CGImageSourceCreateWithURL(self.url as CFURL, nil) {
+      if let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as Dictionary? {
+        let width = imageProperties[kCGImagePropertyPixelWidth] as! Int
+        let height = imageProperties[kCGImagePropertyPixelHeight] as! Int
+        let orientation = imageProperties[kCGImagePropertyOrientation] as! Int
+        
+        let isRotated = [5, 6, 7, 8].contains(orientation)
+        
+        return CGSize(width: isRotated ? height : width, height: isRotated ? width : height)
+      }
+    }
+    return nil
   }
 
   mutating func addAnnotation(withCoordinates coordinates: CGRect) {
