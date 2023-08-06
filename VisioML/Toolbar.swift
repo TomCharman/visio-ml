@@ -38,7 +38,7 @@ struct Toolbar: View {
           }
           .environment(\.isEnabled, appData.workingFolder != nil && appData.pendingImages == 0)
           Button("Export") {
-            self.appData.saveJSON()
+            self.appData.export()
           }
           .environment(\.isEnabled, appData.workingFolder != nil)
       }

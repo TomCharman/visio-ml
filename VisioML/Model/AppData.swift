@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import CoreImage
+import ImageIO
 
 class AppData: ObservableObject {
 
@@ -202,15 +203,30 @@ class AppData: ObservableObject {
     }
   }
 
-  func saveJSON() {
-    guard let folderUrl = workingFolder else {
+  private func saveJSON() {
+    guard let folderUrl = outFolder ?? workingFolder else {
       return
     }
     let url = folderUrl.appendingPathComponent("annotations.json")
-    guard let data = try? JSONEncoder().encode(annotatedImages) else {
+    let encoder = JSONEncoder()
+    encoder.outputFormatting = .prettyPrinted
+    guard let data = try? encoder.encode(annotatedImages) else {
       return
     }
     try! data.write(to: url)
+  }
+  
+  func export() {
+    saveJSON()
+    guard let folderUrl = outFolder else {
+      print("only export images for output folder")
+      return
+    }
+    
+    for annotatedImage in annotatedImages {
+      let destinationUrl = folderUrl.appending(path: annotatedImage.shortName)
+      annotatedImage.exportImage(destinationURL: destinationUrl)
+    }
   }
   
   func removeActiveAnnotation() {

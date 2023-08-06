@@ -1,5 +1,7 @@
 import Foundation
 import CoreImage
+import CoreGraphics
+import UniformTypeIdentifiers
 
 /*
 // JSON file
@@ -119,6 +121,27 @@ struct AnnotatedImage {
     annotations.removeSelectedAnnotation()
   }
 
+  func exportImage(destinationURL: URL) -> Bool {
+    guard let imageSource = CGImageSourceCreateWithURL(self.url as CFURL, nil) else { return false }
+    guard let cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, nil) else { return false }
+    
+    let imageType: CFString = {
+      switch self.url.pathExtension.lowercased() {
+      case "heic":
+        return UTType.heic.identifier
+      case "png":
+        return UTType.png.identifier
+      case "jpg", "jpeg":
+        return UTType.jpeg.identifier
+      default:
+        return UTType.png.identifier
+      }
+    }() as CFString
+    
+    guard let destination = CGImageDestinationCreateWithURL(destinationURL as CFURL, imageType, 1, nil) else { return false }
+    CGImageDestinationAddImage(destination, cgImage, nil)
+    return CGImageDestinationFinalize(destination)
+  }
 }
 
 extension AnnotatedImage: Identifiable {
