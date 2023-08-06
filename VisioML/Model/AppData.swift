@@ -23,7 +23,9 @@ class AppData: ObservableObject {
         }
       }
       let url = dirUrl.appendingPathComponent("workspace.json")
-      guard let data = try? JSONEncoder().encode(settings) else {
+      let encoder = JSONEncoder()
+      encoder.outputFormatting = .prettyPrinted
+      guard let data = try? encoder.encode(settings) else {
         return
       }
       try! data.write(to: url)
