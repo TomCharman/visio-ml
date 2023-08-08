@@ -121,9 +121,9 @@ struct AnnotatedImage {
     annotations.removeSelectedAnnotation()
   }
 
-  func exportImage(destinationURL: URL) -> Bool {
-    guard let imageSource = CGImageSourceCreateWithURL(self.url as CFURL, nil) else { return false }
-    guard let cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, nil) else { return false }
+  func exportImage(destinationURL: URL) -> AnnotatedImage? {
+    guard let imageSource = CGImageSourceCreateWithURL(self.url as CFURL, nil) else { return nil }
+    guard let cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, nil) else { return nil }
     
     let imageType: CFString = {
       switch self.url.pathExtension.lowercased() {
@@ -138,9 +138,30 @@ struct AnnotatedImage {
       }
     }() as CFString
     
-    guard let destination = CGImageDestinationCreateWithURL(destinationURL as CFURL, imageType, 1, nil) else { return false }
-    CGImageDestinationAddImage(destination, cgImage, nil)
-    return CGImageDestinationFinalize(destination)
+    let size = CGSize(width: 750, height: 750)
+    
+    let context = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: cgImage.bitsPerComponent, bytesPerRow: 0, space: cgImage.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!, bitmapInfo: cgImage.bitmapInfo.rawValue)
+    context?.interpolationQuality = .high
+    context?.draw(cgImage, in: CGRect(origin: .zero, size: size))
+    
+    guard let scaledImage = context?.makeImage() else { return nil }
+    
+    guard let destination = CGImageDestinationCreateWithURL(destinationURL as CFURL, imageType, 1, nil) else { return nil }
+    CGImageDestinationAddImage(destination, scaledImage, nil)
+    let success = CGImageDestinationFinalize(destination)
+    if (!success) { return nil }
+    
+    let widthScale = size.width / self.size!.width
+    let heightScale = size.height / self.size!.height
+    
+    var updatedImage = self
+    for (index, _) in updatedImage.annotations.enumerated() {
+      updatedImage.annotations[index].coordinates.size.width *= widthScale
+      updatedImage.annotations[index].coordinates.size.height *= heightScale
+      updatedImage.annotations[index].coordinates.origin.x *= widthScale
+      updatedImage.annotations[index].coordinates.origin.y *= heightScale
+    }
+    return updatedImage
   }
 }
 

@@ -203,30 +203,33 @@ class AppData: ObservableObject {
     }
   }
 
-  private func saveJSON() {
+  private func saveJSON(imagesOverride: [AnnotatedImage]? = nil) {
     guard let folderUrl = outFolder ?? workingFolder else {
       return
     }
     let url = folderUrl.appendingPathComponent("annotations.json")
     let encoder = JSONEncoder()
     encoder.outputFormatting = .prettyPrinted
-    guard let data = try? encoder.encode(annotatedImages) else {
+    guard let data = try? encoder.encode(imagesOverride ?? annotatedImages) else {
       return
     }
     try! data.write(to: url)
   }
   
   func export() {
-    saveJSON()
     guard let folderUrl = outFolder else {
       print("only export images for output folder")
+      saveJSON()
       return
     }
     
+    var scaledImages: [AnnotatedImage] = []
     for annotatedImage in annotatedImages {
       let destinationUrl = folderUrl.appending(path: annotatedImage.shortName)
-      annotatedImage.exportImage(destinationURL: destinationUrl)
+      guard let scaledImage = annotatedImage.exportImage(destinationURL: destinationUrl) else { return }
+      scaledImages.append(scaledImage)
     }
+    saveJSON(imagesOverride: scaledImages)
   }
   
   func removeActiveAnnotation() {
