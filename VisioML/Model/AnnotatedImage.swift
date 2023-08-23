@@ -63,6 +63,16 @@ struct AnnotatedImage {
     FileManager.default.fileExists(atPath: url.path)
   }
   
+  var orientation: Int {
+    if let imageSource = CGImageSourceCreateWithURL(self.url as CFURL, nil) {
+      if let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as Dictionary? {
+        let orientation = imageProperties[kCGImagePropertyOrientation] as! Int
+        return orientation
+      }
+    }
+    return 1
+  }
+  
   var size: CGSize? {
     if let imageSource = CGImageSourceCreateWithURL(self.url as CFURL, nil) {
       if let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as Dictionary? {
@@ -147,7 +157,11 @@ struct AnnotatedImage {
     guard let scaledImage = context?.makeImage() else { return nil }
     
     guard let destination = CGImageDestinationCreateWithURL(destinationURL as CFURL, imageType, 1, nil) else { return nil }
-    CGImageDestinationAddImage(destination, scaledImage, nil)
+    
+    let properties = [
+      kCGImagePropertyOrientation: orientation
+    ] as CFDictionary
+    CGImageDestinationAddImage(destination, scaledImage, properties)
     let success = CGImageDestinationFinalize(destination)
     if (!success) { return nil }
     
