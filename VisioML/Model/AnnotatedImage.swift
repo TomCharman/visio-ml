@@ -66,8 +66,8 @@ struct AnnotatedImage {
   var orientation: Int {
     if let imageSource = CGImageSourceCreateWithURL(self.url as CFURL, nil) {
       if let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as Dictionary? {
-        let orientation = imageProperties[kCGImagePropertyOrientation] as! Int
-        return orientation
+        let orientation = imageProperties[kCGImagePropertyOrientation] as? Int
+        return orientation ?? 1
       }
     }
     return 1
@@ -78,7 +78,7 @@ struct AnnotatedImage {
       if let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as Dictionary? {
         let width = imageProperties[kCGImagePropertyPixelWidth] as! Int
         let height = imageProperties[kCGImagePropertyPixelHeight] as! Int
-        let orientation = imageProperties[kCGImagePropertyOrientation] as! Int
+        let orientation = imageProperties[kCGImagePropertyOrientation] as? Int
         
         let isRotated = [5, 6, 7, 8].contains(orientation)
         
