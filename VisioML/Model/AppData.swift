@@ -229,6 +229,9 @@ class AppData: ObservableObject {
       guard let scaledImage = annotatedImage.exportImage(destinationURL: destinationUrl) else { return }
       scaledImages.append(scaledImage)
     }
+    if (self.outputImages.count > 0) {
+      scaledImages.append(contentsOf: self.outputImages)
+    }
     saveJSON(imagesOverride: scaledImages)
   }
   
